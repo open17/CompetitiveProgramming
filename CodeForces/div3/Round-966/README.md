@@ -1,6 +1,5 @@
 # Codeforces Round 966 (Div. 3)
-
-- [比赛地址](https://codeforces.com/contest/2000)
+[![link]( https://img.shields.io/badge/Codeforces-Round_966-8A2BE2?style=for-the-badge)](https://codeforces.com/contest/2000)
 
 ## 概况
 
