@@ -6,9 +6,6 @@
  */
 
 
-// @prefix IO
-// @description ACM IO
-
 #include <bits/stdc++.h>
 
 /*
@@ -131,7 +128,20 @@ const int MOD = 1e9 + 7;
 
 void solve()
 {
-
+    int n=read();
+    if(!(n&1)){
+        print(-1);
+        return;
+    }
+    int p=n/2;
+    rep(i,1,p+1){
+        cout<<i<<" ";
+    }
+    cout<<n<<" ";
+    _rep(i,n-1,p+1){
+        cout<<i<<" ";
+    }
+    cout<<endl;
 }
 
 signed main()

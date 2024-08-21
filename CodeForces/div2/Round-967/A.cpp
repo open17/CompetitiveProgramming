@@ -6,9 +6,6 @@
  */
 
 
-// @prefix IO
-// @description ACM IO
-
 #include <bits/stdc++.h>
 
 /*
@@ -131,7 +128,15 @@ const int MOD = 1e9 + 7;
 
 void solve()
 {
-
+    int n=read();
+    vector<int> a(n+1);
+    int ans=-1;
+    rep(i,0,n){
+        a[read()]++;
+        
+    }
+    rep(i,0,n+1)chmax(ans,a[i]);
+    print(n-ans);
 }
 
 signed main()

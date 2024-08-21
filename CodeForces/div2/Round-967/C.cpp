@@ -6,9 +6,6 @@
  */
 
 
-// @prefix IO
-// @description ACM IO
-
 #include <bits/stdc++.h>
 
 /*
@@ -129,9 +126,33 @@ void write(int);
 const int N = 5e5 + 5;
 const int MOD = 1e9 + 7;
 
+/**
+ * 
+ *   中点 -> 二分
+ * 
+ * */
+
 void solve()
 {
-
+    int n=read();
+    vector<int> fa(n+1);
+    rep(i,1,n){
+        int node=1;
+        while(1){
+            print("?",node,i+1);
+            fflush(stdout);
+            int ans=read();
+            if(ans==node){
+                fa[i]=node;
+                break;
+            }
+            node=ans;
+        }
+    }
+    cout<<"! ";
+    rep(i,1,n)cout<<i+1<<" "<<fa[i]<<" ";
+    cout<<endl;
+    fflush(stdout);
 }
 
 signed main()
