@@ -1,5 +1,5 @@
 # Educational Codeforces Round 169 (Rated for Div. 2)
-[![link]( https://img.shields.io/badge/Codeforces-Round_169-blue?style=for-the-badge)](https://codeforces.com/contest/2004)
+[![link]( https://img.shields.io/badge/Codeforces-Round_169-blue?style=for-the-badge&logo=codeforces&logoColor=fff)](https://codeforces.com/contest/2004)
 
 ## 概况
 

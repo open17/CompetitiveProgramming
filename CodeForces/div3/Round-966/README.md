@@ -1,5 +1,5 @@
 # Codeforces Round 966 (Div. 3)
-[![link]( https://img.shields.io/badge/Codeforces-Round_966-8A2BE2?style=for-the-badge)](https://codeforces.com/contest/2000)
+[![link]( https://img.shields.io/badge/Codeforces-Round_966-8A2BE2?style=for-the-badge&logo=codeforces&logoColor=fff)](https://codeforces.com/contest/2000)
 
 ## 概况
 
