@@ -119,7 +119,7 @@ public:
         // https://leetcode.cn/problems/last-stone-weight-ii/
         // 思维+维护最大值
         // 要注意的是上界优化后不会复制最优值到target，需要维护ans最值
-        
+
         // 因为无论如何最多只会剩下一个石头，所以我们可视为有两堆石头，一堆用于+，一堆用于-
         // 设为a和b，显然我们想让a-b最小，则有ans=a-b;sum=a+b(此时与numberOfWays很相似了)
         // 那么则有ans=sum-2*b,然后求b最大即可
@@ -137,5 +137,35 @@ public:
             }
         }
         return ss-ans*2;
+    }
+    int closestCost(vector<int>& baseCosts, vector<int>& toppingCosts, int target) {
+        // https://leetcode.cn/problems/closest-dessert-cost/
+        // 我们可以把最接近target的改为寻找小于等于target的合法方案和大于target的合法方案
+        // 首先对于寻找小于等于target的合法方案很简单，01背包维护一下即可
+        // 然后对于大于target的方案，当然也可以01背包维护，但是注意到我们只需要最小的，我们可以维护单一的值
+        // 单一的值显然必然有小于等于target的合法方案转移过来
+        // 然后按要求输出答案即可
+
+        // TODO 目前有个问题...
+        int x=*min_element(baseCosts.begin(),baseCosts.end());
+        if (x>=target)return x;
+        vector<int> f(target+1);
+        int ans=2*target-x;
+        for(auto v:baseCosts){
+            if(v<=target)f[v]=1;
+            else ans=min(ans,v);
+        }
+        for(int k=0;k<toppingCosts.size()*2;k++){
+            int cost=toppingCosts[k%toppingCosts.size()];
+            for(int j=target;j>=0;j--)if(f[j]&&cost+j>target)ans=min(ans,j+cost);
+            for(int j=target;j>=cost;j--){
+                f[j]=max(f[j],f[j-cost]);
+            }
+        }
+        for(int i=target;i>=0;i--){
+            if(abs(target-i)>abs(ans-target))break;
+            if(f[i])return i;
+        }
+        return ans;
     }
 };
