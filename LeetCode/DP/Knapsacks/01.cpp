@@ -13,7 +13,9 @@ public:
         f[0] = 0;
         int s = 0;
         for (int x : nums) {
-            s = min(s + x, target);  // 上界小优化，s表示最大可能和（重量）
+            // 上界小优化，s表示最大可能和（重量
+            // 不过转移最值时可能有个注意事项（详见lastStoneWeightII）
+            s = min(s + x, target);
             for (int j = s; j >= x; j--) {
                 f[j] = max(f[j], f[j - x] + 1);
             }
@@ -79,5 +81,61 @@ public:
             }
         }
         return f[n];
+    }
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        // https://leetcode.cn/problems/ones-and-zeroes/
+        // 二维01背包（二维费用背包）
+        int len=strs.size();
+        vector<pair<int,int>> w;
+        for(auto s:strs){
+            int a=0,b=0;
+            for(auto c:s){
+                if(c=='1'){
+                    b++;
+                }
+                else{
+                    a++;
+                }
+            }
+            w.push_back({a,b});
+        }
+        int s1=0,s2=0;
+        int ans=0;
+        vector<vector<int>> f(m+1,vector<int>(n+1));
+        for(auto p:w){
+            int a=p.first,b=p.second;
+            s1=min(s1+a,m);
+            s2=min(s2+b,n);
+            for(int i=s1;i>=a;i--){
+                for(int j=s2;j>=b;j--){
+                    f[i][j]=max(f[i][j],f[i-a][j-b]+1);
+                    ans=max(ans,f[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+    int lastStoneWeightII(vector<int>& stones) {
+        // https://leetcode.cn/problems/last-stone-weight-ii/
+        // 思维+维护最大值
+        // 要注意的是上界优化后不会复制最优值到target，需要维护ans最值
+        
+        // 因为无论如何最多只会剩下一个石头，所以我们可视为有两堆石头，一堆用于+，一堆用于-
+        // 设为a和b，显然我们想让a-b最小，则有ans=a-b;sum=a+b(此时与numberOfWays很相似了)
+        // 那么则有ans=sum-2*b,然后求b最大即可
+        int ss=0;
+        for(auto i:stones)ss+=i;
+        int target=ss/2;
+        int s=0;
+        vector<int> f(target+1);
+        int ans=0;
+        for(auto w:stones){
+            s=min(s+w,target);
+            for(int j=s;j>=w;j--){
+                f[j]=max(f[j],f[j-w]+w);
+                ans=max(ans,f[j]);
+            }
+        }
+        return ss-ans*2;
     }
 };
