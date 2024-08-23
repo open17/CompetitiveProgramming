@@ -140,31 +140,70 @@ public:
     }
     int closestCost(vector<int>& baseCosts, vector<int>& toppingCosts, int target) {
         // https://leetcode.cn/problems/closest-dessert-cost/
-        // 我们可以把最接近target的改为寻找小于等于target的合法方案和大于target的合法方案
-        // 首先对于寻找小于等于target的合法方案很简单，01背包维护一下即可
-        // 然后对于大于target的方案，当然也可以01背包维护，但是注意到我们只需要最小的，我们可以维护单一的值
-        // 单一的值显然必然有小于等于target的合法方案转移过来
-        // 然后按要求输出答案即可
-
-        // TODO 目前有个问题...
+        // 思维+维护合法方案
+        // 理论上可以拆开单独维护大于target的最小值，但是有点bug，所以还是一起维护好写点
         int x=*min_element(baseCosts.begin(),baseCosts.end());
         if (x>=target)return x;
-        vector<int> f(target+1);
         int ans=2*target-x;
+        vector<int> f(ans+1);
         for(auto v:baseCosts){
-            if(v<=target)f[v]=1;
-            else ans=min(ans,v);
+            if(v<=ans)f[v]=1;
         }
         for(int k=0;k<toppingCosts.size()*2;k++){
             int cost=toppingCosts[k%toppingCosts.size()];
-            for(int j=target;j>=0;j--)if(f[j]&&cost+j>target)ans=min(ans,j+cost);
-            for(int j=target;j>=cost;j--){
+            for(int j=ans;j>=cost;j--){
                 f[j]=max(f[j],f[j-cost]);
             }
         }
-        for(int i=target;i>=0;i--){
-            if(abs(target-i)>abs(ans-target))break;
-            if(f[i])return i;
+        if(f[target])return target;
+        int l=target-1,r=target+1;
+        while(l>=0&&r<=ans){
+            if(f[l])return l;
+            if(f[r])return r;
+            l--;
+            r++;
+        }
+        for(int i=l;i>=0;i--)if(f[i])return i;
+        return -1;
+    }
+    int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
+        //  https://leetcode.cn/problems/profitable-schemes/
+        // 上界优化+二维
+        // 上界从1e4优化到1e2，巧妙的利用负数
+        // 然后还要注意初始化，任何Profit为0的都应该有1种（什么都不选）
+        int MOD=1e9+7;
+        vector<vector<int>> f(n+1,vector<int>(minProfit+1));
+        for(int i=0;i<=n;i++)f[i][0]=1;
+        for(int p=0;p<group.size();p++){
+            int v1=group[p];
+            int v2=profit[p];
+            for(int i=n;i>=v1;i--)
+                for(int j=minProfit;j>=0;j--)
+                    f[i][j]=(f[i][j]+f[i-v1][max(j-v2,0)])%MOD;
+        }
+        return f[n][minProfit];
+    }
+    int sumOfPower(vector<int>& nums, int k) {
+        // https://leetcode.cn/problems/find-the-sum-of-the-power-of-all-subsequences/
+        // 贡献+二维
+        int MOD=1e9+7;
+        int n = nums.size();
+        vector<vector<int>>f(k+1,vector<int>(n+1));
+        f[0][0] = 1;
+        int s=0;
+        for (int i = 0; i < n; i++) {
+            s=min(s+nums[i],k);
+            for (int j = s; j >= nums[i]; j--) {
+                for (int c = i + 1; c > 0; c--) {
+                    f[j][c] = (f[j][c] + f[j - nums[i]][c - 1]) % MOD;
+                }
+            }
+        }
+        int ans = 0;
+        int pow2 = 1;
+        for (int i = n; i > 0; i--) {
+            ans = (ans + (long long) f[k][i] * pow2) % MOD;
+            pow2 = pow2 * 2 % MOD;
         }
         return ans;
     }
