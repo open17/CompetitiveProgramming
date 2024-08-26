@@ -207,4 +207,23 @@ public:
         }
         return ans;
     }
+    int maxTotalReward(vector<int>& rewardValues) {
+        // https://leetcode.cn/problems/maximum-total-reward-using-operations-i/
+        //  维护方案+上界贪心
+        //  还可以bitset优化
+        //  当然也可以维护最值，那样需要贪心得到一个转移结论，思考难度比较大,但就无需上界贪心了
+        sort(rewardValues.begin(),rewardValues.end());
+        rewardValues.erase(unique(rewardValues.begin(), rewardValues.end()), rewardValues.end());
+        int target=rewardValues.back()*2-1; //上界贪心
+        vector<int>f(target+1);
+        f[0]=1;
+        for(auto p:rewardValues){
+            for(int i=target;i>=p;i--){
+                if(p>i-p)f[i]|=f[i-p];
+            }
+        }
+        for(int i=target;i>=0;i--)
+            if(f[i])return i;
+        return -1;
+    }
 };
