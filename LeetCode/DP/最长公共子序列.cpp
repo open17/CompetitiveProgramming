@@ -106,4 +106,42 @@ public:
         }
         return f[n][m];
     }
+    string shortestCommonSupersequence(string text1, string text2) {
+        // https://leetcode.cn/problems/shortest-common-supersequence/description/
+        // 痛苦，下标调了快一个小时
+        int n=text1.size(),m=text2.size();
+        string ans="";
+        vector<vector<pii>> nxt(n+1,vector<pii>(m+1));
+        vector<vector<int>> f(n+1,vector<int>(m+1));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(text1[i]==text2[j]){
+                    f[i+1][j+1]=f[i][j]+1;
+                    nxt[i+1][j+1]={i+1,j+1};
+                }
+                else{
+                    f[i+1][j+1]=max(f[i][j+1],f[i+1][j]);
+                    if(f[i][j+1]>=f[i+1][j])nxt[i+1][j+1]=nxt[i][j+1];
+                    else nxt[i+1][j+1]=nxt[i+1][j];
+                } 
+            }
+        }
+        int x=n,y=m;
+        while(x>0||y>0){
+            auto p=nxt[x][y];
+            while(x>p.first){
+                ans+=text1[x-1];
+                x--;
+            }
+            while(y>p.second){
+                ans+=text2[y-1];
+                y--;
+            }
+            if(p.second>0)ans+=text2[p.second-1];
+            x--;
+            y--;
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
 };
