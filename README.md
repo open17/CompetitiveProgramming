@@ -16,3 +16,16 @@
 - easy snippet
 - cph
 - oj-better
+
+## 脚本
+
+
+清除cph
+```sh
+python Tools/clear.py
+```
+
+对拍
+```sh
+python Tools/VBC.py
+```
