@@ -2,3 +2,5 @@
 Test/
 **/*.exe
 **/*.bin
+Tools/in/**
+Tools/out/**

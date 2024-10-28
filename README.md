@@ -22,7 +22,7 @@
 
 清除cph
 ```sh
-python Tools/clear.py
+python clear.py
 ```
 
 对拍

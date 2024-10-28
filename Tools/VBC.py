@@ -72,7 +72,7 @@ if __name__ == "__main__":
     RESULT_FILE_NAME = "result_output.txt"
 
     # 单个测试用例
-    TESTCASE_FILE = 'output_auto.txt'
+    # TESTCASE_FILE = 'output_auto.txt'
     
 
     # 自动生成测试用例并测试
@@ -80,8 +80,8 @@ if __name__ == "__main__":
     DATA_GENERATOR_OUTPUT="output_auto.txt"
     MAX_TESTS = 10000
 
-    PROGRAM_1 = "test/a.exe"
-    PROGRAM_2 = "test/sample.exe"
+    PROGRAM_1 = "CodeForces\div2\Round-975\A.exe"
+    PROGRAM_2 = "CodeForces\div2\Round-975\TEST_A.exe"
     
     # test_case_single()
     test_case_auto_generated()
